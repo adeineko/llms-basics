@@ -3,14 +3,17 @@ import os
 from dotenv import load_dotenv
 
 # Load variables from .env file
-load_dotenv(".env.local")
+load_dotenv("../.env.local")
 
-api_key = os.getenv("AI1_API_KEY")
-api_base = "https://api.goose.ai/v1"
 
-# Set the OpenAI API key and base URL
-openai.api_key = api_key
-openai.api_base = api_base
+def choose_api():
+    global api_key, api_url
+    index = int(input("Choose an API (1-6): ") or 1)
+    api_key = os.getenv("API_KEY_" + str(index))
+    api_url = os.getenv("API_URL_" + str(index))
+    # print(f"Using API {index} at {api_url} with key {api_key}")
+    openai.api_key = api_key
+    openai.api_base = api_url
 
 
 def choose_model():
@@ -32,6 +35,8 @@ def ask_question():
 
 
 def generate_answer(model, question):
+    openai.api_key = api_key
+    openai.api_base = api_url
     # Create the prompt
     prompt = f"Question: {question}\nAnswer:"
 
@@ -43,8 +48,7 @@ def generate_answer(model, question):
             max_tokens=150,
             temperature=0.7,
             n=1,
-            stop=["\n", "Question:", "Answer:"],
-            stream=False
+            stop=["\n", "Question:", "Answer:"]
         )
         # Extract the generated text
         answer = response.choices[0].text.strip()
@@ -54,7 +58,7 @@ def generate_answer(model, question):
 
 
 def main():
-    # TODO: choose API
+    choose_api()
     model = choose_model()
     question = ask_question()
     answer = generate_answer(model, question)

@@ -1,19 +1,12 @@
 import openai
 import os
 from dotenv import load_dotenv
+from config.definitions import ROOT_DIR
 
 # Load variables from .env file
-load_dotenv("../.env.local")
-
-
-def choose_api():
-    global api_key, api_url
-    index = int(input("Choose an API (1-6): ") or 1)
-    api_key = os.getenv("API_KEY_" + str(index))
-    api_url = os.getenv("API_URL_" + str(index))
-    # print(f"Using API {index} at {api_url} with key {api_key}")
-    openai.api_key = api_key
-    openai.api_base = api_url
+load_dotenv(os.path.join(ROOT_DIR, '.env.local'))
+openai.api_base = "https://api.goose.ai/v1"
+openai.api_key = os.getenv("GOOSE_API_KEY")
 
 
 def choose_model():
@@ -23,20 +16,13 @@ def choose_model():
     # Print all engine IDs
     for engine in engines['data']:
         print(engine['id'])
+    default_model = engines['data'][0]['id']
     model = input(
-        "Enter the model you would like to use (default: gpt-j-6b)\n") or "gpt-j-6b"
-    print(f"Using model: {model}")
+        f"\nEnter the model you would like to use (default: {default_model})\n") or default_model
     return model
 
 
-def ask_question():
-    question = input("Please enter your question\n")
-    return question
-
-
-def generate_answer(model, question):
-    openai.api_key = api_key
-    openai.api_base = api_url
+def generate_answer(model, question, context):
     # Create the prompt
     prompt = f"Question: {question}\nAnswer:"
 
@@ -55,16 +41,3 @@ def generate_answer(model, question):
         return answer
     except openai.error.OpenAIError as e:
         return f"An error occurred: {e}"
-
-
-def main():
-    choose_api()
-    model = choose_model()
-    question = ask_question()
-    answer = generate_answer(model, question)
-    print("\nGenerated answer:")
-    print(answer)
-
-
-if __name__ == "__main__":
-    main()

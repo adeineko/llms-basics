@@ -13,10 +13,6 @@ def choose_api():
         choose_model = apis.huggingface.choose_model
         generate_answer = apis.huggingface.generate_answer
         is_with_context = True
-    elif chosen_api == "3":
-        import apis.ollama
-        choose_model = apis.ollama.choose_model
-        generate_answer = apis.ollama.generate_answer
     else:
         print("Invalid API. Please try again.")
         choose_api()

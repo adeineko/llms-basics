@@ -17,8 +17,8 @@ path = kagglehub.dataset_download(
     "niraliivaghani/flipkart-product-customer-reviews-dataset")
 print("Path to dataset files:", path)
 data = pd.read_csv(path + '/Dataset-SA.csv', header=None, names=[
-                   "product_name", "product_price", "Rate", "Review", "Summary", "Sentiment"], nrows=10)
-data = data.dropna(subset=["Summary", "Sentiment"], axis=0)
+                   "product_name", "product_price", "Rate", "Review", "Summary", "Sentiment"], nrows=5000)
+data = data.dropna(subset=["Summary", "Sentiment"], axis=0).tail(3000)
 
 
 def preprocess_tweet(tweet):

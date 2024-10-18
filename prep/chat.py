@@ -3,7 +3,7 @@ def choose_api():
     global choose_model, generate_answer, chosen_api, is_with_context
     is_with_context = False
     chosen_api = input(
-        "Available APIs\n1) Goose AI\n2) HuggingFace\n3) Ollama (local)\n\nChoose an API to use: ")
+        "Available APIs\n1) Goose AI\n2) HuggingFace\n\nChoose an API to use: ")
     if chosen_api == "1":
         import apis.goose
         choose_model = apis.goose.choose_model
@@ -20,7 +20,7 @@ def choose_api():
 
 def ask_context():
     context = input(
-        "\nDescribe what you're going to ask me about (or type exit)\n")
+        "\nGive me the context for your question (or type exit)\n")
     if context == "exit":
         exit()
     return context

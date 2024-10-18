@@ -2,3 +2,8 @@
 *__pycache__*
 .idea/
 .vscode/
+
+# Ignore virtual environment files
+.venv/
+# Ignore compiled Python files
+*.pyc

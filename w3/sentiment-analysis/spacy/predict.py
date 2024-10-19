@@ -1,6 +1,6 @@
-import warnings
 import pandas as pd
 import spacy
+import warnings
 
 # Suppress deprecation warnings
 warnings.filterwarnings("ignore", category=FutureWarning)

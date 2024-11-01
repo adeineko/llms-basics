@@ -101,7 +101,11 @@ for index, row in reviews.iterrows():
         'reviewTitle': title,
         'reviewBody': body,
         'title_sentiment': overall_sentiment_title,
-        'body_sentiment': overall_sentiment_body
+        'body_sentiment': overall_sentiment_body,
+        'title_aspects': title_aspects,
+        'title_sentiments': title_sentiments,
+        'body_aspects': body_aspects,
+        'body_sentiments': body_sentiments
     })
 
 # Create a DataFrame to save the results

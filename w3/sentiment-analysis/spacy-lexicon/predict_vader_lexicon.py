@@ -9,7 +9,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 # Download required NLTK resources
 nltk.download('vader_lexicon')
-nltk.download('punkt')  # Make sure 'punkt' is downloaded
+nltk.download('punkt')
 nltk.download('punkt_tab')
 nltk.download('averaged_perceptron_tagger_eng')
 

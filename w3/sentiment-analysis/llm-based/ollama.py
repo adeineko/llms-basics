@@ -16,7 +16,8 @@ def query_llama3(prompt):
         "Content-Type": "application/json"
     }
     # Enable streaming response
-    response = requests.post(BASE_URL, json=payload, headers=headers, stream=True)
+    response = requests.post(BASE_URL, json=payload,
+                             headers=headers, stream=True)
     response.raise_for_status()
 
     response_text = ''
@@ -69,7 +70,7 @@ Output Format:
     return analysis
 
 
-# Add your aspect categories here
+# Aspect categories
 aspect_categories = {
     'price': ['price', 'cost', 'value', 'expensive', 'cheap'],
     'quality': ['quality', 'build', 'durability', 'materials', 'design'],
@@ -77,7 +78,6 @@ aspect_categories = {
     'functionality': ['functionality', 'performance', 'works', 'working', 'function', 'use'],
     'appearance': ['look', 'appearance', 'design', 'style', 'color'],
     'service': ['service', 'customer service', 'support', 'shipping', 'delivery'],
-    # Add more categories as needed
 }
 
 
@@ -92,7 +92,8 @@ def process_reviews(csv_file, output_csv_file):
     with open(csv_file, 'r', encoding='utf-8') as f_in, open(output_csv_file, 'w', newline='',
                                                              encoding='utf-8') as f_out:
         reader = csv.DictReader(f_in)
-        fieldnames = ['reviewTitle', 'reviewBody', 'aspect', 'categorized_aspect', 'sentiment']
+        fieldnames = ['reviewTitle', 'reviewBody',
+                      'aspect', 'categorized_aspect', 'sentiment']
         writer = csv.DictWriter(f_out, fieldnames=fieldnames)
         writer.writeheader()
 
@@ -132,6 +133,6 @@ def process_reviews(csv_file, output_csv_file):
 
 
 if __name__ == "__main__":
-    csv_file = '../SentimentAssignmentReviewCorpus.csv'  # Replace with your actual input CSV file path
-    output_csv_file = 'analysis_results-v2.csv'  # Specify your desired output CSV file name
+    csv_file = '../SentimentAssignmentReviewCorpus.csv'
+    output_csv_file = 'analysis_results-v2.csv'
     process_reviews(csv_file, output_csv_file)

@@ -1,10 +1,10 @@
 from sentence_transformers import SentenceTransformer
 from nltk.tokenize import sent_tokenize
-import faiss # Facebook AI Similarity Search
+import faiss
 import requests
 import json
 import wikipedia
-import nltk # Natural Language Toolkit
+import nltk
 
 nltk.download('punkt')
 nltk.download('punkt_tab')
@@ -24,25 +24,21 @@ except wikipedia.exceptions.PageError:
     print("The page 'Hurricane Milton' does not exist.")
     content = ""
 
-
 # Step 2: Preprocess the content
 sentences = sent_tokenize(content)
 chunk_size = 5  # every 5 sentences grouped
 chunks = [' '.join(sentences[i:i + chunk_size]) for i in range(0, len(sentences), chunk_size)]
 
 # Step 3: Generate embeddings for the chunks
-# Each text chunk is converted into a numerical representation (embedding) using Sentence Transformers
 embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 chunk_embeddings = embedding_model.encode(chunks).astype('float32')
 
 # Step 4: Build a FAISS index which allows  efficient similarity searches
-# This index enables quick retrieval of text chunks that are most relevant to a user's query.
 dimension = chunk_embeddings.shape[1]
 index = faiss.IndexFlatL2(dimension)
 index.add(chunk_embeddings)
 
 
-# Step 5: the retrieval function
 def retrieve_relevant_documents(query, k=2):
     query_embedding = embedding_model.encode([query]).astype('float32')
     distances, indices = index.search(query_embedding, k)
@@ -92,11 +88,9 @@ def chat_with_llama3():
             print("Goodbye!")
             break
 
-        # Retrieve relevant documents
         relevant_docs = retrieve_relevant_documents(user_input)
         context = "\n\n".join(relevant_docs)
 
-        # Augment the prompt with the context
         augmented_prompt = f"""
 You are an assistant knowledgeable about hurricanes.
 
@@ -109,7 +103,6 @@ Question: {user_input}
 Answer:
 """
 
-        # Query the Llama3 model with the augmented prompt
         query_llama3_model_stream(augmented_prompt)
 
 
